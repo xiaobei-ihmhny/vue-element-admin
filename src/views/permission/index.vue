@@ -9,25 +9,24 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
-export default{
-  data() {
-    return {
-      role: ''
+    import { mapGetters } from 'vuex';
+    export default{
+      data() {
+        return {
+          role: ''
+        }
+      },
+      computed: {
+        ...mapGetters([
+          'roles'
+        ])
+      },
+      watch: {
+        role(val) {
+          this.$store.dispatch('ChangeRole', val).then(() => {
+            this.$router.push({ path: '/permission/index?' + +new Date() });
+          })
+        }
+      }
     }
-  },
-  computed: {
-    ...mapGetters([
-      'roles'
-    ])
-  },
-  watch: {
-    role(val) {
-      this.$store.dispatch('ChangeRole', val).then(() => {
-        this.$router.push({ path: '/permission/index?' + +new Date() })
-      })
-    }
-  }
-}
 </script>

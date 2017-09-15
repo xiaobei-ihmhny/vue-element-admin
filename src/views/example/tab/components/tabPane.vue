@@ -1,8 +1,7 @@
 <template>
   <el-table :data="list" border fit highlight-current-row style="width: 100%">
 
-    <el-table-column align="center" label="序号" width="65"  v-loading="loading"
-    element-loading-text="请给我点时间！">
+    <el-table-column align="center" label="序号" width="65">
       <template scope="scope">
         <span>{{scope.row.id}}</span>
       </template>
@@ -16,7 +15,7 @@
 
     <el-table-column min-width="300px" label="标题">
       <template scope="scope">
-        <span>{{scope.row.title}}</span>
+        <span class="link-type" @click="handleUpdate(scope.row)">{{scope.row.title}}</span>
         <el-tag>{{scope.row.type}}</el-tag>
       </template>
     </el-table-column>
@@ -29,7 +28,7 @@
 
     <el-table-column width="80px" label="重要性">
       <template scope="scope">
-        <icon-svg v-for="n in +scope.row.importance" icon-class="wujiaoxing" :key="n"></icon-svg>
+        <wscn-icon-svg v-for="n in +scope.row.importance" icon-class="wujiaoxing" class="meta-item__icon" :key="n" />
       </template>
     </el-table-column>
 
@@ -49,50 +48,51 @@
 </template>
 
 <script>
-import { fetchList } from '@/api/article'
+  import { fetchList } from 'api/article_table';
 
-export default {
-  props: {
-    type: {
-      type: String,
-      default: 'CN'
-    }
-  },
-  data() {
-    return {
-      list: null,
-      listQuery: {
-        page: 1,
-        limit: 5,
-        type: this.type,
-        sort: '+id'
-      },
-      loading: false
-    }
-  },
-  filters: {
-    statusFilter(status) {
-      const statusMap = {
-        published: 'success',
-        draft: 'gray',
-        deleted: 'danger'
+  export default {
+    name: 'articleDetail',
+    props: {
+      type: {
+        type: String,
+        default: 'CN'
       }
-      return statusMap[status]
-    }
-  },
-  created() {
-    this.getList()
-  },
-  methods: {
-    getList() {
-      this.loading = true
-      this.$emit('create') // for test
-      fetchList(this.listQuery).then(response => {
-        this.list = response.data.items
-        this.loading = false
-      })
+    },
+    data() {
+      return {
+        list: null,
+        total: null,
+        listQuery: {
+          page: 1,
+          limit: 5,
+          type: this.type,
+          sort: '+id'
+        }
+      }
+    },
+    filters: {
+      statusFilter(status) {
+        const statusMap = {
+          published: 'success',
+          draft: 'gray',
+          deleted: 'danger'
+        };
+        return statusMap[status]
+      }
+    },
+    created() {
+      this.getList();
+    },
+    methods: {
+      getList() {
+        this.$emit('create'); // for test
+
+        fetchList(this.listQuery).then(response => {
+          this.list = response.data.items;
+          this.total = response.data.total;
+        })
+      }
     }
   }
-}
 </script>
 

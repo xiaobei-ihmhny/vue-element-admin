@@ -1,16 +1,16 @@
 <template>
   <div class="components-container">
     <div class='component-item'>
-      <md-input name="name" v-model="title" required :maxlength="100">
+      <MDinput name="name" v-model="title" required :maxlength="100">
         标题
-      </md-input>
+      </MDinput>
       <code class='code-part'>Material Design 的input</code>
     </div>
 
     <div class='component-item'>
-      <pan-thumb image='https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191'>
+      <PanThumb image='https://wpimg.wallstcn.com/577965b9-bb9e-4e02-9f0c-095b41417191'>
         上海花裤衩
-      </pan-thumb>
+      </PanThumb>
       <code class='code-part'>图片hover效果</code>
     </div>
 
@@ -18,25 +18,21 @@
       <el-button v-waves type="primary">水波纹效果</el-button>
       <code class='code-part'>水波纹 v-directive</code>
     </div>
+
   </div>
 </template>
-
 <script>
-import MdInput from '@/components/MDinput'
-import PanThumb from '@/components/PanThumb'
-import waves from '@/directive/waves.js' // 水波纹指令
+    import MDinput from 'components/MDinput';
+    import PanThumb from 'components/PanThumb';
 
-export default {
-  components: { MdInput, PanThumb },
-  directives: {
-    waves
-  },
-  data() {
-    return {
-      title: ''
-    }
-  }
-}
+    export default {
+      components: { MDinput, PanThumb },
+      data() {
+        return {
+          title: ''
+        }
+      }
+    };
 </script>
 
 <style scoped>
